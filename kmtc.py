@@ -18,9 +18,13 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 import undetected_chromedriver as uc
 
+# looping process monitoring
+from tqdm import tqdm
+
 penampung = []
 hasil = {}
-gagal = [] 
+gagal = []
+final_bl = []
 
 # set up connection with mongodb collection
 cluster = MongoClient("mongodb+srv://tobiassion:tobiassion@cluster0.u2vzz3d.mongodb.net/?retryWrites=true&w=majority")
@@ -36,6 +40,14 @@ def is_date(string, fuzzy=False):
         return False
     
 # reading inputed excel file consist of BL Numbers
+# bl_list = [
+#     # "KMTCJKT4504850",
+#     # "KMTCJKT4508714",
+#     # "KMTCJKT4518089",   
+#     # "KMTCJKT4502055",
+#     "KMTCJKT4500839",
+#     "KMTCJKT4501711"
+# ]
 df = pd.read_excel('BL Number EVGL.xlsx') 
 parse_bl = df['BL Number'].tolist()
 bl_list = list(set(list(parse_bl)))
@@ -64,7 +76,7 @@ click_search.click()
 
 time.sleep(1)
 
-for i, bls in enumerate(bl_list):
+for i, bls in enumerate(tqdm(bl_list)):
     try:
         time.sleep(1)
         # input bl2
@@ -84,7 +96,7 @@ for i, bls in enumerate(bl_list):
 
         #input BL Number to Dictionary
         hasil.update({"BL Number" : bls})
-
+        
         for i, item in enumerate(data_table):
             info = item.text
             tulis = info.replace("\n", " ")
@@ -95,11 +107,11 @@ for i, bls in enumerate(bl_list):
             if(is_date(item)):
                 case={penampung[j-1]:item[s]}
                 hasil.update(case)
-        
+     
         # appending bl details to db
-        collection.insert_one(hasil)
-        print(bls, "done uploading!!")
-        hasil.clear()
+        final_bl.append(hasil)
+        hasil={}
+        print(bls, "\n done listed")
 
     except Exception as e:
         print("An unexpected error occurred: {} cant bre processed".format(bls))
@@ -107,4 +119,7 @@ for i, bls in enumerate(bl_list):
     finally:
         pass
 
+collection.insert_many(final_bl)
+print("inserting many complete!!")
+print(gagal)
 driver.close
