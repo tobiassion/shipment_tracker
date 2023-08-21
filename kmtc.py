@@ -39,15 +39,6 @@ def is_date(string, fuzzy=False):
     except ValueError:
         return False
     
-# reading inputed excel file consist of BL Numbers
-# bl_list = [
-#     # "KMTCJKT4504850",
-#     # "KMTCJKT4508714",
-#     # "KMTCJKT4518089",   
-#     # "KMTCJKT4502055",
-#     "KMTCJKT4500839",
-#     "KMTCJKT4501711"
-# ]
 df = pd.read_excel('BL Number EVGL.xlsx') 
 parse_bl = df['BL Number'].tolist()
 bl_list = list(set(list(parse_bl)))
