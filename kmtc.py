@@ -121,3 +121,22 @@ db = cluster["bl_tracking"]
 collection = db["testing-server-debian"]
 collection.insert_many(hasil_akhir)
 print("inserting many complete!!")
+
+
+# connect to mongodb
+from pymongo import MongoClient
+
+# Provide the connection details
+hostname = '10.1.201.71'
+port = 27017  # Default MongoDB port
+username = ''  # If authentication is required
+password = ''  # If authentication is required
+
+# Create a MongoClient instance
+client = MongoClient(hostname, port, username=username, password=password)
+
+db = client["stockcontroll"]
+print(db)
+collection = db["testing-server-debian"]
+collection.insert_many(hasil_akhir)
+print("inserting many complete!!")
