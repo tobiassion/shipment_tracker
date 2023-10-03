@@ -107,9 +107,11 @@ gagal = []
 list_dict = []
 # web scripting
 options = Options()
-options.add_argument("--window-size=1920,1280")
+options.add_argument('--headless')
+options.add_argument('--disable-gpu')
+options.set_capability("browserVersion", "98")
 # driver = uc.Chrome(use_subprocess=True)
-driver = webdriver.Remote("http://127.0.0.1:4444/wd/hub", DesiredCapabilities.CHROME)
+driver = webdriver.Remote(command_executor = "http://127.0.0.1:4444/wd/hub", desired_capabilities = DesiredCapabilities.CHROME)
 driver.get('https://www.sealandmaersk.com/tracking/' + bl_list[random.randint(0, len(bl_list)-1)])
 
 # wait to load all
