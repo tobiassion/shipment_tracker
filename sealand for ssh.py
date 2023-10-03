@@ -20,6 +20,8 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 import undetected_chromedriver as uc
+from selenium import webdriver
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 # reeading and exporting to excel files
 import pandas as pd
@@ -106,7 +108,8 @@ list_dict = []
 # web scripting
 options = Options()
 options.add_argument("--window-size=1920,1280")
-driver = uc.Chrome(use_subprocess=True)
+# driver = uc.Chrome(use_subprocess=True)
+driver = webdriver.Remote("http://127.0.0.1:4444/wd/hub", DesiredCapabilities.CHROME)
 driver.get('https://www.sealandmaersk.com/tracking/' + bl_list[random.randint(0, len(bl_list)-1)])
 
 # wait to load all
