@@ -103,6 +103,7 @@ print("==================Collecting BL From Spreadsheet Complete================
 dict_hasil = {}
 current_dict = {}
 list_dict = []
+unique_list = []
 gagal = []
 
 list_dict = []
@@ -110,7 +111,7 @@ list_dict = []
 options = Options()
 options.add_argument('--headless')
 options.add_argument('--disable-gpu')
-options.set_capability("browserVersion", "98")
+# options.set_capability("browserVersion", "98")
 # driver = uc.Chrome(use_subprocess=True)
 print("==================Instatiate Web Driver==================")
 driver = webdriver.Remote(command_executor = "http://127.0.0.1:4444/wd/hub", desired_capabilities = DesiredCapabilities.CHROME, options=webdriver.ChromeOptions())
@@ -278,7 +279,6 @@ for i, bls in enumerate(tqdm(bl_list)):
             current_dict = {}
             dict_hasil={}
         
-        unique_list = []
         for d in list_dict:
             if d not in unique_list:
                 unique_list.append(d)
