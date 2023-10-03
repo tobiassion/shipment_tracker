@@ -34,6 +34,7 @@ import random
 from pymongo import MongoClient
 from datetime import date
 
+print("==================Importing Libraries Done==================")
 # initiating new mongo db
 def mongo_table_initiation():
 
@@ -97,7 +98,7 @@ data = r.content
 df = pd.read_csv(BytesIO(data))
 liners_bl = df[df["LINERS"] == "SEALAND"]
 bl_list = list(set(liners_bl["BL Number"]))
-
+print("==================Collecting BL From Spreadsheet Complete==================")
 
 dict_hasil = {}
 current_dict = {}
@@ -111,9 +112,11 @@ options.add_argument('--headless')
 options.add_argument('--disable-gpu')
 options.set_capability("browserVersion", "98")
 # driver = uc.Chrome(use_subprocess=True)
+print("==================Instatiate Web Driver==================")
 driver = webdriver.Remote(command_executor = "http://127.0.0.1:4444/wd/hub", desired_capabilities = DesiredCapabilities.CHROME, options=webdriver.ChromeOptions())
+print("==================Accesing Liner's Web==================")
 driver.get('https://www.sealandmaersk.com/tracking/' + bl_list[random.randint(0, len(bl_list)-1)])
-
+print("==================Start Scraping==================")
 # wait to load all
 time.sleep(2)
 
@@ -284,6 +287,7 @@ for i, bls in enumerate(tqdm(bl_list)):
         print(e)
         print("{} GAGAL!!".format(bls))
         gagal.append(bls)
+    print(bls, "COMPLETE")
 
 filtered_dict_list =[]
 for dict_milestone in unique_list:
@@ -345,5 +349,6 @@ for filter_dict in list_of_dict_fix:
     list_of_dict_fix2.append(updated_dict)
 
 # inserting to mongo from ssh
+print("==================Inserting To Mongo==================")
 mongo_table_initiation()
 insert_many_mongo(list_of_dict_fix2)
