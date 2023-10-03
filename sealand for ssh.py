@@ -141,7 +141,7 @@ for i, bls in enumerate(tqdm(bl_list)):
         time.sleep(3)
         
         # finding how many hide details in 1 page refering to how many container number in 1 bl
-        soup1 = BeautifulSoup(driver.page_source, 'lxml')
+        soup1 = BeautifulSoup(driver.page_source, 'html.parser')
         containers = soup1.find_all('div', {"data-test": "container"})
         number_of_ctr = len(containers)
         
@@ -177,7 +177,7 @@ for i, bls in enumerate(tqdm(bl_list)):
 
             time.sleep(2)
             # taking the whole page's html
-            soup2 = BeautifulSoup(driver.page_source, 'lxml')
+            soup2 = BeautifulSoup(driver.page_source, 'html.parser')
             
             table = soup2.find_all('div', {"data-test": "container"})
             milestones = []
@@ -235,7 +235,7 @@ for i, bls in enumerate(tqdm(bl_list)):
                     dict_hasil.update(case_judul)
             
             time.sleep(2)
-            soup2 = BeautifulSoup(driver.page_source, 'lxml')
+            soup2 = BeautifulSoup(driver.page_source, 'html.parser')
             
             table = soup2.find_all('div', {"data-test": "container"})
             milestones = []
