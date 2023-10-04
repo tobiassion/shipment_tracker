@@ -111,6 +111,8 @@ list_dict = []
 options = Options()
 options.add_argument('--headless')
 options.add_argument('--disable-gpu')
+options.add_argument('--no-sandbox')
+options.add_argument('--disable-dev-shm-usage')
 # options.set_capability("browserVersion", "98")
 # driver = uc.Chrome(use_subprocess=True)
 print("==================Instatiate Web Driver==================")
