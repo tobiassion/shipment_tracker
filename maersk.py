@@ -25,7 +25,7 @@ from acquiringbl import takingBL
 from mongoinit import mongo_table_initiation, insert_many_mongo
 
 
-# class to determine ganjil genap
+# function to determine ganjil genap
 def is_date(string, fuzzy=False):
     try: 
         parse(string, fuzzy=fuzzy)
@@ -44,7 +44,7 @@ current_dict = {}
 list_dict = []
 gagal = []
 
-# web scripting
+# web driving parameter
 options = Options()
 options.add_argument("--window-size=1920,1280")
 driver = uc.Chrome(use_subprocess=True)
@@ -77,7 +77,6 @@ for i, bls in enumerate(tqdm(bl_list)):
             titles.remove('View Shipment Details')
             print(titles)
             for a, item in enumerate(titles):
-                #
                 if a%2==0 :
                     case_judul = {titles[a]:titles[a+1]}
                     dict_hasil.update(case_judul)
