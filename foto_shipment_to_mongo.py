@@ -1,6 +1,7 @@
 import pandas as pd
 import requests
 from io import BytesIO
+import datetime
 
 # initiating mongo
 from pymongo import MongoClient
@@ -12,7 +13,7 @@ def delete_all():
     password = ''
     cluster = MongoClient(hostname, port, username=username, password=password)
 
-    collection_name = "fototier"
+    collection_name = "fototiers"
 
     db = cluster["stockcontroll"]
     collection = db[collection_name]
@@ -26,7 +27,7 @@ def insert_many_mongo(results):
     password = ''
     cluster = MongoClient(hostname, port, username=username, password=password)
 
-    collection_name = "fototier"
+    collection_name = "fototiers"
 
     db = cluster["stockcontroll"]
     collection = db[collection_name]
@@ -42,7 +43,7 @@ columns_to_keep = [col for col in df.columns if 'Unnamed' not in col]
 df = df[columns_to_keep]
 
 # dropping unwanted columns
-index_column_to_drop = [0,1,2,3]
+index_column_to_drop = [1,2,3]
 df = df.drop(df.columns[index_column_to_drop], axis=1)
 df['Nomor Shipment'] = df['Nomor Shipment'].astype(str)
 
@@ -73,15 +74,20 @@ for i, dicts in enumerate(dict_of_data):
                     upload_photos.append(case)
         else:
             if str(value) == 'nan':
-                merged_upload[key] = ""
+                merged_upload[key.replace(" ", "_")] = ""
             else:
-                merged_upload[key] = value
-        merged_upload['Upload Photos'] = upload_photos
+                merged_upload[key.replace(" ", "_")] = value
+        merged_upload['Upload_Photos'] = upload_photos
+
+    case_date1 = {"createdAt":int(datetime.datetime.timestamp(datetime.datetime.strptime(merged_upload["Timestamp"], "%d/%m/%Y %H:%M:%S")))}
+    case_date2 = {"updatedAt":int(datetime.datetime.timestamp(datetime.datetime.strptime(merged_upload["Timestamp"], "%d/%m/%Y %H:%M:%S")))}
+    merged_upload.update(case_date1)
+    merged_upload.update(case_date2)
 
     data_to_upload.append(merged_upload)
 
 # deleting all data in collection
-# delete_all()
+delete_all()
 
 # uploading list of dictionary to mongo
 insert_many_mongo(data_to_upload)
