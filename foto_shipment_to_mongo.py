@@ -14,7 +14,7 @@ def delete_all():
 
     collection_name = "fototier"
 
-    db = cluster["shipment"]
+    db = cluster["stockcontroll"]
     collection = db[collection_name]
     collection.delete_many({})
     return print("All data cleared!!")
@@ -28,7 +28,7 @@ def insert_many_mongo(results):
 
     collection_name = "fototier"
 
-    db = cluster["shipment"]
+    db = cluster["stockcontroll"]
     collection = db[collection_name]
     collection.insert_many(results)
     return print("Inserting Many Complete!!")
@@ -81,7 +81,7 @@ for i, dicts in enumerate(dict_of_data):
     data_to_upload.append(merged_upload)
 
 # deleting all data in collection
-delete_all()
+# delete_all()
 
 # uploading list of dictionary to mongo
 insert_many_mongo(data_to_upload)
