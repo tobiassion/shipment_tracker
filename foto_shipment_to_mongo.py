@@ -59,7 +59,7 @@ dict_of_data = df.to_dict('records')
 data_to_upload = []
 for i, dicts in enumerate(dict_of_data):
     merged_upload = {}
-    upload_photos = []   
+    upload_photos = []
     for key, value in dicts.items():
         if 'Upload Foto Tier' in key:
             text = str(key)
@@ -68,10 +68,10 @@ for i, dicts in enumerate(dict_of_data):
                 sliced_text = text[last_space_index + 1:]  
             else:
                 print("No space found in the text")
-            case = {"TIER " +sliced_text : str(value)}
-            for key2, value2 in case.items():
-                if value2 != 'nan':
-                    upload_photos.append(case)
+            case = {"Nama" : "TIER " + sliced_text, "URL" : str(value)}
+        
+            if case["URL"] != 'nan':
+                upload_photos.append(case)
         else:
             if str(value) == 'nan':
                 merged_upload[key.replace(" ", "_")] = ""
@@ -85,7 +85,6 @@ for i, dicts in enumerate(dict_of_data):
     merged_upload.update(case_date2)
 
     data_to_upload.append(merged_upload)
-
 # deleting all data in collection
 delete_all()
 
