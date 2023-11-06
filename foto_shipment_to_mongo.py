@@ -68,7 +68,7 @@ for i, dicts in enumerate(dict_of_data):
                 sliced_text = text[last_space_index + 1:]  
             else:
                 print("No space found in the text")
-            case = {"Nama" : "TIER " + sliced_text, "URL" : str(value)}
+            case = {"Nama" : "TIER " + sliced_text, "URL" : str(value).replace("open?", "uc?export=view&")}
         
             if case["URL"] != 'nan':
                 upload_photos.append(case)
